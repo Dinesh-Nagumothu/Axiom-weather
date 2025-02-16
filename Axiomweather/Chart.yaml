@@ -1,0 +1,4 @@
+apiVersion: v2
+name: my-flask-app
+description: A Helm chart for deploying a Flask application
+version: 0.1.0

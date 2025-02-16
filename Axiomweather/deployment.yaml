@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-flask-app
+  template:
+    metadata:
+      labels:
+        app: my-flask-app
+    spec:
+      containers:
+        - name: my-flask-app
+          image: dinesh2265/my-flask-app:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGO_URI
+              value: "mongodb+srv://saidineshnagumothu:Dinesh23@cluster0.ja8egqs.mongodb.net/weatherAPI"
+            - name: SECRET_KEY
+              value: "ph23AxQZUJmtFtmgMQXFQHev6xZUMw"

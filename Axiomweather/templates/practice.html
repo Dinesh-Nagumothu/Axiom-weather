@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="english">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <style>
+      body {
+        background-color: #3a58e1; /* Skin blue background color */
+        color: white; /* White font color */
+        font-family: Arial, sans-serif; /* Font family */
+        margin: 0; /* Remove default margin */
+        padding: 0; /* Remove default padding */
+        overflow: hidden; /* Hide overflow to prevent scrollbars */
+        position: relative; /* Set position to relative for sun */
+      }
+
+      h1 {
+        text-align: center; /* Center align the heading */
+        position: relative; /* Set position to relative for bird container */
+      }
+
+      #weatherForm {
+        text-align: center; /* Center align the form */
+        margin-top: 20px; /* Add some space at the top */
+        z-index: 2; /* Ensure form is above clouds */
+      }
+
+      #weatherForm button {
+        font-size: 1em; /* Increase font size */
+        padding: 10px 20px; /* Add padding */
+        border-radius: 5px; /* Add border radius */
+        background-color: #4caf50; /* Green button color */
+        color: white; /* White button text color */
+        border: none; /* Remove button border */
+        cursor: pointer; /* Add pointer cursor on hover */
+        margin-top: 10px; /* Add space between buttons */
+        z-index: 2; /* Ensure buttons are above clouds */
+      }
+
+      #weatherForm button:hover {
+        background-color: #45a049; /* Darker green color on hover */
+      }
+
+      #weatherInfo {
+        text-align: center; /* Center align the weather info */
+        margin-top: 20px; /* Add some space at the top */
+        font-size: 1.2em; /* Increase font size */
+        padding: 10px; /* Add padding */
+        position: relative; /* Set position to relative */
+        animation: slideFromLeft 5s linear forwards; /* Apply animation */
+        z-index: 2; /* Ensure weather info is above clouds */
+      }
+
+      #weatherInfo p {
+        margin: 5px 0; /* Add some space between paragraphs */
+        color: white; /* White font color */
+      }
+
+      @keyframes slideFromLeft {
+        0% {
+          left: -100%; /* Start position off-screen to the left */
+        }
+        100% {
+          left: 50%; /* End position centered */
+          transform: translateX(-50%); /* Center horizontally */
+        }
+      }
+
+      .navy {
+        color: rgb(53, 144, 236); /* Navy blue color */
+      }
+
+      .green {
+        color: lime; /* Green color */
+      }
+
+      .white-bg {
+        background-color: white; /* White background color */
+        padding: 0 4px; /* Add padding to the span */
+        line-height: 1; /* Ensure equal height to other letters */
+      }
+
+      .bold {
+        font-weight: bold; /* Bold font weight */
+      }
+
+      #logoutButton {
+        margin-top: 20px; /* Add some space at the top */
+        text-align: center; /* Center align the button */
+        z-index: 2; /* Ensure logout button is above clouds */
+      }
+
+      #logoutButton button {
+        font-size: 1em; /* Increase font size */
+        padding: 10px 20px; /* Add padding */
+        border-radius: 5px; /* Add border radius */
+        background-color: #cb0a0a; /* Red button color */
+        color: white; /* White button text color */
+        border: none; /* Remove button border */
+        cursor: pointer; /* Add pointer cursor on hover */
+      }
+
+      #logoutButton button:hover {
+        background-color: #d00707; /* Darker red button color on hover */
+      }
+
+      /* Sun */
+      .sun {
+        position: absolute; /* Set position to absolute */
+        top: 20%; /* Adjust vertical position */
+        right: 70px; /* Adjust horizontal position */
+        width: 150px; /* Set width of the sun */
+        height: 150px; /* Set height of the sun */
+        border-radius: 80%; /* Make it round */
+        z-index: 3; /* Ensure sun is above other elements */
+        animation: rotateSun 30s linear infinite; /* Apply animation */
+      }
+
+      @keyframes rotateSun {
+        100% {
+          transform: rotate(360deg); /* Rotate sun 360 degrees */
+        }
+      }
+
+      /* Cloud Animation */
+      .clouds {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1; /* Ensure clouds are behind other elements */
+      }
+
+      .cloud {
+        width: 250px;
+        height: 90px;
+        background: #f2f9fe;
+        background: linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        background: -webkit-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        background: -moz-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        background: -ms-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        background: -o-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        border-radius: 100px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        position: absolute;
+        margin: 120px auto 20px;
+        animation: cloudAnimation 20s linear infinite;
+        z-index: 2; /* Ensure clouds are above the sun */
+      }
+
+      .cloud:after,
+      .cloud:before {
+        content: "";
+        position: absolute;
+        background: #f2f9fe;
+        z-index: -1;
+      }
+
+      .cloud:after {
+        width: 80px;
+        height: 80px;
+        top: -40px;
+        left: 50px;
+        border-radius: 100px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+      }
+
+      .cloud:before {
+        width: 140px;
+        height: 140px;
+        top: -70px;
+        right: 50px;
+        border-radius: 200px;
+        -webkit-border-radius: 200px;
+        -moz-border-radius: 200px;
+      }
+
+      @keyframes cloudAnimation {
+        from {
+          transform: translateX(-200px);
+        }
+        to {
+          transform: translateX(calc(100vw + 200px));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Clouds -->
+    <div class="clouds">
+      <div class="cloud"></div>
+      <div class="cloud" style="animation-delay: 10s"></div>
+    </div>
+
+    <!-- Content -->
+    <h1>
+      AX<span class="navy"><span class="white-bg">IO</span></span
+      >M WORLD WEATHER FORECAST
+    </h1>
+    <!-- Sun -->
+    <div class="sun"></div>
+    <form id="weatherForm">
+      <label for="cityInput">SEARCH CITY:</label>
+      <input type="text" id="cityInput" name="cityInput" />
+      <button type="submit">Get Weather</button>
+    </form>
+    <div id="weatherInfo"></div>
+    <div id="logoutButton">
+      <!-- Using an anchor tag for redirection -->
+      <a href="http://127.0.0.1:5000/"><button>Logout</button></a>
+    </div>
+
+    <script>
+      const snowContainer = document.getElementById("snow-container");
+      const snowContent = ["❄️", "❅", "❆"]; // Snowflake characters
+
+      const random = (num) => {
+        return Math.floor(Math.random() * num);
+      };
+
+      const getRandomStyles = () => {
+        const top = random(100);
+        const left = random(100);
+        const dur = random(10) + 10;
+        const size = random(25) + 25;
+        return `
+  top: -${top}%;
+  left: ${left}%;
+  font-size: ${size}px;
+  animation-duration: ${dur}s;
+`;
+      };
+
+      const createSnow = (num) => {
+        for (var i = num; i > 0; i--) {
+          var snow = document.createElement("div");
+          snow.className = "snow snowflakes-animation"; // Add snowflakes-animation class
+          snow.style.cssText = getRandomStyles();
+          snow.innerHTML = snowContent[random(3)];
+          snowContainer.append(snow);
+        }
+      };
+
+      const removeSnow = () => {
+        snowContainer.style.opacity = "0";
+        setTimeout(() => {
+          snowContainer.innerHTML = ""; // Remove all snowflakes
+        }, 500);
+      };
+
+      document
+        .getElementById("weatherForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const city = document.getElementById("cityInput").value;
+          fetchWeather(city);
+        });
+
+      function fetchWeather(city) {
+        const apiKey = "82926ac80eb093b481082f4a92701cb5";
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+        fetch(url)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("City not found");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const temperature = data.main.temp;
+
+            const sun = document.querySelector(".sun");
+            sun.style.backgroundColor = getSunColor(temperature);
+
+            const weatherInfo = `
+      <p>Temperature: <span class="bold" style="color: yellow">${temperature}°C</span></p>
+      <p>Humidity: <span class="bold" style="color: orange">${data.main.humidity}%</span></p>
+      <p>Wind Speed: <span class="bold">${data.wind.speed} m/s</span></p>
+      <p>Description: <span class="bold">${data.weather[0].description}</span></p>
+      <p>Latitude: <span class="bold" style="color: lime">${data.coord.lat}</span></p>
+      <p>Longitude: <span class="bold" style="color: lime">${data.coord.lon}</span></p>
+    `;
+
+            document.getElementById("weatherInfo").innerHTML = weatherInfo;
+
+            if (temperature < 10) {
+              createSnow(30); // Create snow effect
+            } else {
+              removeSnow(); // Remove snow effect if temperature is not suitable
+            }
+          })
+          .catch((error) => {
+            document.getElementById(
+              "weatherInfo"
+            ).innerHTML = `<p>${error.message}</p>`;
+          });
+      }
+
+      function getSunColor(temperature) {
+        if (temperature < 10) {
+          return "white";
+        } else if (temperature >= 10 && temperature <= 20) {
+          return "skyblue";
+        } else if (temperature > 20 && temperature < 33) {
+          return "yellow";
+        } else {
+          return "red";
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="english">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #87ceeb; /* Set background color to sky blue */
+        color: white;
+        position: relative;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      .content {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        padding: 20px;
+        background-color: #0b18c5;
+        border-radius: 30px;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #301fd7;
+        font-weight: bold;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #1913d1;
+      }
+
+      .signin-button {
+        display: inline-block;
+        background-color: #111ceb;
+        color: #4ac5e4;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        cursor: pointer;
+      }
+
+      .signin-button:hover {
+        background-color: #e1e8ec;
+      }
+
+      .signup-link {
+        color: white;
+        text-decoration: none;
+      }
+
+      .signup-link:hover {
+        color: #0c0d0d;
+      }
+
+      /* Cloud Animation */
+      .clouds {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .cloud {
+        width: 250px;
+        height: 90px;
+        background: #f2f9fe;
+        background: linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        background: -webkit-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        background: -moz-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        background: -ms-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        background: -o-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+        border-radius: 100px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        position: absolute;
+        margin: 120px auto 20px;
+        animation: cloudAnimation 20s linear infinite;
+      }
+
+      .cloud:after,
+      .cloud:before {
+        content: "";
+        position: absolute;
+        background: #f2f9fe;
+        z-index: -1;
+      }
+
+      .cloud:after {
+        width: 80px;
+        height: 80px;
+        top: -40px;
+        left: 50px;
+        border-radius: 100px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+      }
+
+      .cloud:before {
+        width: 140px;
+        height: 140px;
+        top: -70px;
+        right: 50px;
+        border-radius: 200px;
+        -webkit-border-radius: 200px;
+        -moz-border-radius: 200px;
+      }
+
+      @keyframes cloudAnimation {
+        from {
+          transform: translateX(-200px);
+        }
+        to {
+          transform: translateX(calc(100vw + 200px));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Clouds -->
+    <div class="clouds">
+      <div class="cloud"></div>
+      <div class="cloud" style="animation-delay: 05s"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+      <div class="content">
+        <h2>
+          <span style="color: white">AX</span
+          ><span style="background-color: white; color: #1ab6f9">IO</span
+          ><span style="color: white">M WORLD WEATHER FORECAST</span>
+        </h2>
+        <form action="/signin" method="post" onsubmit="return validateForm()">
+          <label for="email">Email:</label><br />
+          <input type="text" id="email" name="email" /><br />
+          <label for="password">Password:</label><br />
+          <input type="password" id="password" name="password" /><br /><br />
+          <input type="submit" value="Sign In" class="signin-button" />
+        </form>
+        <p>
+          Don't have an account?
+          <a href="{{ url_for('signup') }}" class="signup-link">Signup</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      function validateForm() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        // Email validation
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert("Invalid Email.");
+          return false;
+        }
+
+        // Password validation
+        if (password.length < 8) {
+          alert("Invalid Password.");
+          return false;
+        }
+
+        return true;
+      }
+    </script>
+  </body>
+</html>
