@@ -19,6 +19,6 @@ spec:
             - containerPort: 5000
           env:
             - name: MONGO_URI
-              value: "mongodb+srv://saidineshnagumothu:Dinesh23@cluster0.ja8egqs.mongodb.net/weatherAPI"
+              value: "mongodb+srv://username:password@cluster0.ja8egqs.mongodb.net/weatherAPI"
             - name: SECRET_KEY
               value: "ph23AxQZUJmtFtmgMQXFQHev6xZUMw"
